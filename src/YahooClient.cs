@@ -15,6 +15,28 @@ public class YahooClient
     }
 
     /// <summary>
+    /// Gets a json string of all Historical Data for the selected stock symbol and parameter options.
+    /// </summary>
+    /// <param name="symbol"></param>
+    /// <param name="dataFrequency"></param>
+    /// <param name="startDate"></param>
+    /// <returns></returns>
+    public async Task<string> GetHistoricalJsonAsync(string symbol, DataFrequency dataFrequency, DateTime startDate)
+    {
+        return await DownloadRawCsvDataAsync(symbol, DataType.HistoricalPrices, dataFrequency, startDate, null, true);
+    }
+
+    /// <summary>
+    /// Converts json data into a list of Historical Data
+    /// </summary>
+    /// <param name="json"></param>
+    /// <returns></returns>
+    public IEnumerable<HistoricalChartInfo> GetHistoricalDataFromJson(string json)
+    {
+        return new HistoricalHelper().ParseYahooJsonData<HistoricalChartInfo>(json);
+    }
+
+    /// <summary>
     /// Gets a list of all Historical Data for the selected stock symbol and parameter options.
     /// </summary>
     /// <param name="symbol"></param>
